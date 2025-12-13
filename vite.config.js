@@ -9,7 +9,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'https://backend-e-commerce-beta.vercel.app/',
+        target: 'https://backend-e-commerce-beta.vercel.app',
         changeOrigin: true
       }
     }
