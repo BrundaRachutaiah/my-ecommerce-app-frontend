@@ -18,107 +18,107 @@ axios.defaults.headers.common['x-session-id'] = getSessionId();
 
 // Products API
 export const getProducts = async (params = {}) => {
-  const response = await axios.get(`${API_URL}/products`, { params });
+  const response = await axios.get(`${API_URL}/api/products`, { params });
   return response.data;
 };
 
 export const getProductById = async (productId) => {
-  const response = await axios.get(`${API_URL}/products/${productId}`);
+  const response = await axios.get(`${API_URL}/api/products/${productId}`);
   return response.data;
 };
 
 // Categories API
 export const getCategories = async () => {
-  const response = await axios.get(`${API_URL}/categories`);
+  const response = await axios.get(`${API_URL}/api/categories`);
   return response.data;
 };
 
 // Cart API
 export const getCart = async () => {
-  const response = await axios.get(`${API_URL}/cart`);
+  const response = await axios.get(`${API_URL}/api/cart`);
   return response.data;
 };
 
 export const addToCart = async (productId, quantity = 1) => {
-  const response = await axios.post(`${API_URL}/cart/add`, { productId, quantity });
+  const response = await axios.post(`${API_URL}/api/cart/add`, { productId, quantity });
   return response.data;
 };
 
 export const updateCartItem = async (productId, quantity) => {
-  const response = await axios.put(`${API_URL}/cart/update`, { productId, quantity });
+  const response = await axios.put(`${API_URL}/api/cart/update`, { productId, quantity });
   return response.data;
 };
 
 export const removeFromCart = async (productId) => {
-  const response = await axios.delete(`${API_URL}/cart/remove/${productId}`);
+  const response = await axios.delete(`${API_URL}/api/cart/remove/${productId}`);
   return response.data;
 };
 
 // Wishlist API
 export const getWishlist = async () => {
-  const response = await axios.get(`${API_URL}/wishlist`);
+  const response = await axios.get(`${API_URL}/api/wishlist`);
   return response.data;
 };
 
 export const addToWishlist = async (productId) => {
-  const response = await axios.post(`${API_URL}/wishlist/add`, { productId });
+  const response = await axios.post(`${API_URL}/api/wishlist/add`, { productId });
   return response.data;
 };
 
 export const removeFromWishlist = async (productId) => {
-  const response = await axios.delete(`${API_URL}/wishlist/remove/${productId}`);
+  const response = await axios.delete(`${API_URL}/api/wishlist/remove/${productId}`);
   return response.data;
 };
 
 // Address API
 export const getAddresses = async () => {
-  const response = await axios.get(`${API_URL}/addresses`);
+  const response = await axios.get(`${API_URL}/api/addresses`);
   return response.data;
 };
 
 export const addAddress = async (addressData) => {
-  const response = await axios.post(`${API_URL}/addresses/add`, addressData);
+  const response = await axios.post(`${API_URL}/api/addresses/add`, addressData);
   return response.data;
 };
 
 export const updateAddress = async (addressId, addressData) => {
-  const response = await axios.put(`${API_URL}/addresses/${addressId}`, addressData);
+  const response = await axios.put(`${API_URL}/api/addresses/${addressId}`, addressData);
   return response.data;
 };
 
 export const deleteAddress = async (addressId) => {
-  const response = await axios.delete(`${API_URL}/addresses/${addressId}`);
+  const response = await axios.delete(`${API_URL}/api/addresses/${addressId}`);
   return response.data;
 };
 
 // Orders API
 export const getOrders = async () => {
-  const response = await axios.get(`${API_URL}/orders`);
+  const response = await axios.get(`${API_URL}/api/orders`);
   return response.data;
 };
 
 export const getOrderById = async (orderId) => {
-  const response = await axios.get(`${API_URL}/orders/${orderId}`);
+  const response = await axios.get(`${API_URL}/api/orders/${orderId}`);
   return response.data;
 };
 
 export const createOrder = async (orderData) => {
-  const response = await axios.post(`${API_URL}/orders`, orderData);
+  const response = await axios.post(`${API_URL}/api/orders`, orderData);
   return response.data;
 };
 
 // User API
 export const loginUser = async (email, password) => {
-  const response = await axios.post(`${API_URL}/users/login`, { email, password });
+  const response = await axios.post(`${API_URL}/api/users/login`, { email, password });
   return response.data;
 };
 
 export const registerUser = async (userData) => {
-  const response = await axios.post(`${API_URL}/users/register`, userData);
+  const response = await axios.post(`${API_URL}/api/users/register`, userData);
   return response.data;
 };
 
 export const getUserProfile = async () => {
-  const response = await axios.get(`${API_URL}/users/profile`);
+  const response = await axios.get(`${API_URL}/api/users/profile`);
   return response.data;
 };
