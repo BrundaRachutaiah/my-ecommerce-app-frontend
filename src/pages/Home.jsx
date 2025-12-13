@@ -17,7 +17,14 @@ const Home = () => {
         const productsRes = await getProducts({ featured: true });
 
         setCategories(categoriesRes.categories || categoriesRes);
-        setFeaturedProducts(productsRes.products || productsRes);
+        const featuredArray = Array.isArray(productsRes.products)
+  ? productsRes.products
+  : Array.isArray(productsRes)
+  ? productsRes
+  : [];
+
+setFeaturedProducts(featuredArray);
+
       } catch (error) {
         console.error('Home API error:', error);
       } finally {
@@ -95,7 +102,7 @@ const Home = () => {
           <Loading />
         ) : (
           <Row>
-            {featuredProducts.slice(0, 4).map((product) => (
+            {Array.isArray(featuredProducts) && featuredProducts.slice(0, 4).map((product) => (
               <Col key={product._id} md={3} className="mb-4">
                 <ProductCard product={product} />
               </Col>

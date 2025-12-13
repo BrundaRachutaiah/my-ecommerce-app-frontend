@@ -34,7 +34,15 @@ const ProductListing = () => {
         if (filters.search) params.search = filters.search;
         
         const response = await getProducts(params);
-        setProducts(response.products || response);
+
+const productsArray = Array.isArray(response.products)
+  ? response.products
+  : Array.isArray(response)
+  ? response
+  : [];
+
+setProducts(productsArray);
+
       } catch (error) {
         showAlert('danger', 'Failed to fetch products');
       } finally {
@@ -45,7 +53,15 @@ const ProductListing = () => {
     const fetchCategories = async () => {
       try {
         const response = await getCategories();
-        setCategories(response.categories || response);
+
+const categoriesArray = Array.isArray(response.categories)
+  ? response.categories
+  : Array.isArray(response)
+  ? response
+  : [];
+
+setCategories(categoriesArray);
+
       } catch (error) {
         showAlert('danger', 'Failed to fetch categories');
       }
@@ -93,7 +109,7 @@ const ProductListing = () => {
             <div className="mb-4">
               <h6>Category</h6>
               <Form>
-                {categories.map(category => (
+                {Array.isArray(categories) && categories.map(category => (
                   <Form.Check
                     key={category._id}
                     type="checkbox"
@@ -176,7 +192,7 @@ const ProductListing = () => {
                 </div>
               ) : (
                 <Row>
-                  {products.map(product => (
+                  {Array.isArray(products) && products.map(product => (
                     <Col key={product._id} md={4} className="mb-4">
                       <ProductCard product={product} />
                     </Col>
