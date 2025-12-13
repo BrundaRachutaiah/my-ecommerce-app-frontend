@@ -1,14 +1,32 @@
-// src/pages/Home.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import useFetch from '../api/useFetch';//../api/useFetch
-import Loading from '../components/common/Loading';//../components/common/Loading
-import ProductCard from '../components/common/ProductCard';//../components/common/ProductCard
+import Loading from '../components/common/Loading';
+import ProductCard from '../components/common/ProductCard';
+import { getCategories, getProducts } from '../api/apiService';
 
 const Home = () => {
-  const { data: categoriesData, loading: categoriesLoading } = useFetch('/api/categories');
-  const { data: featuredProductsData, loading: productsLoading } = useFetch('/api/products?featured=true');
+  const [categories, setCategories] = useState([]);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchHomeData = async () => {
+      try {
+        const categoriesRes = await getCategories();
+        const productsRes = await getProducts({ featured: true });
+
+        setCategories(categoriesRes.categories || categoriesRes);
+        setFeaturedProducts(productsRes.products || productsRes);
+      } catch (error) {
+        console.error('Home API error:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHomeData();
+  }, []);
 
   return (
     <div>
@@ -24,29 +42,41 @@ const Home = () => {
               </Button>
             </Col>
             <Col md={6}>
-              <div className="d-none d-md-block">
-                <img src="https://picsum.photos/seed/shopping/600/400.jpg" alt="Shopping" className="img-fluid rounded" />
-              </div>
+              <img
+                src="https://picsum.photos/seed/shopping/600/400"
+                alt="Shopping"
+                className="img-fluid rounded"
+              />
             </Col>
           </Row>
         </Container>
       </div>
 
-      {/* Categories Section */}
+      {/* Categories */}
       <Container className="mb-5">
         <h2 className="mb-4">Shop by Category</h2>
-        {categoriesLoading ? (
+
+        {loading ? (
           <Loading />
         ) : (
           <Row>
-            {categoriesData?.data?.categories?.map(category => (
+            {categories.map((category) => (
               <Col key={category._id} md={4} className="mb-4">
-                <Card className="h-100 category-card">
-                  <Card.Img variant="top" src={category.image || `https://picsum.photos/seed/${category.name}/400/250.jpg`} />
+                <Card className="h-100">
+                  <Card.Img
+                    variant="top"
+                    src={
+                      category.image ||
+                      `https://picsum.photos/seed/${category.name}/400/250`
+                    }
+                  />
                   <Card.Body className="text-center">
                     <Card.Title>{category.name}</Card.Title>
-                    <Card.Text>{category.description}</Card.Text>
-                    <Button as={Link} to={`/products?category=${category._id}`} variant="primary">
+                    <Button
+                      as={Link}
+                      to={`/products?category=${category._id}`}
+                      variant="primary"
+                    >
                       Shop Now
                     </Button>
                   </Card.Body>
@@ -57,14 +87,15 @@ const Home = () => {
         )}
       </Container>
 
-      {/* Featured Products Section */}
+      {/* Featured Products */}
       <Container className="mb-5">
         <h2 className="mb-4">Featured Products</h2>
-        {productsLoading ? (
+
+        {loading ? (
           <Loading />
         ) : (
           <Row>
-            {featuredProductsData?.data?.products?.slice(0, 4).map(product => (
+            {featuredProducts.slice(0, 4).map((product) => (
               <Col key={product._id} md={3} className="mb-4">
                 <ProductCard product={product} />
               </Col>
@@ -72,20 +103,6 @@ const Home = () => {
           </Row>
         )}
       </Container>
-
-      {/* Newsletter Section */}
-      <div className="bg-light py-5">
-        <Container className="text-center">
-          <h2 className="mb-4">Subscribe to Our Newsletter</h2>
-          <p>Get the latest updates on new products and upcoming sales</p>
-          <div className="d-flex justify-content-center">
-            <div className="input-group" style={{ maxWidth: '500px' }}>
-              <input type="email" className="form-control" placeholder="Your email address" />
-              <button className="btn btn-primary" type="button">Subscribe</button>
-            </div>
-          </div>
-        </Container>
-      </div>
     </div>
   );
 };

@@ -34,7 +34,7 @@ const ProductListing = () => {
         if (filters.search) params.search = filters.search;
         
         const response = await getProducts(params);
-        setProducts(response.data.products);
+        setProducts(response.products || response);
       } catch (error) {
         showAlert('danger', 'Failed to fetch products');
       } finally {
@@ -45,7 +45,7 @@ const ProductListing = () => {
     const fetchCategories = async () => {
       try {
         const response = await getCategories();
-        setCategories(response.data.categories);
+        setCategories(response.categories || response);
       } catch (error) {
         showAlert('danger', 'Failed to fetch categories');
       }
